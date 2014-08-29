@@ -23,6 +23,7 @@ $RECYCLE.BIN/
 Library/
 obj/
 ProjectSettings/
+Temp/
 
 # =========================
 # Operating System Files

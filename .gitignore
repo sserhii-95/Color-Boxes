@@ -1,3 +1,5 @@
+.gitignore
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -13,6 +15,14 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# Unity temp files
+*.meta
+
+# Unity forlders
+Library/
+obj/
+ProjectSettings/
 
 # =========================
 # Operating System Files

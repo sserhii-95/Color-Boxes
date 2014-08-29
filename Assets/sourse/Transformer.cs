@@ -48,6 +48,8 @@ public class Transformer : MonoBehaviour {
      */
     public bool canScale = true;
 
+    private Vector3 deltaRotate;
+
     /**
      * Instance of a Timer
      */
@@ -58,7 +60,8 @@ public class Transformer : MonoBehaviour {
         scaleSpeed = -20;
     }
     public void RotateOnDegrees(Vector3 direction, float AngleInDegrees) {
-        rotation = direction.normalized * AngleInDegrees;
+        rotation = direction * AngleInDegrees;
+        deltaRotate = rotation / rotateTime;
     }
 
     /**
@@ -97,12 +100,14 @@ public class Transformer : MonoBehaviour {
         {
             if (rotation.x > 0 || rotation.y > 0 || rotation.z > 0)
             {
+                /*
                 Vector3 delta = Vector3.zero;
                 if (rotation.x > 0) delta.x = Mathf.Max(1f, rotation.x / rotateTime * Time.deltaTime);//Mathf.Min(rotation.x, rotarotateSpeed * Time.deltaTime);
                 if (rotation.y > 0) delta.y = Mathf.Max(1f, rotation.y / rotateTime * Time.deltaTime);//Mathf.Min(rotation.y, rotateSpeed * Time.deltaTime);
                 if (rotation.z > 0) delta.z = Mathf.Max(1f, rotation.z / rotateTime * Time.deltaTime);//Mathf.Min(rotation.z, rotateSpeed * Time.deltaTime);
-                transform.Rotate(delta);
-                rotation -= delta;
+                 */
+                transform.Rotate(deltaRotate * Time.deltaTime);
+                rotation -= deltaRotate*Time.deltaTime;
             }
             else
             {

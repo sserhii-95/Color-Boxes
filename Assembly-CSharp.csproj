@@ -50,6 +50,7 @@
      <Compile Include="Assets\sourse\CubeColor.cs" />
      <Compile Include="Assets\sourse\CubeController.cs" />
      <Compile Include="Assets\sourse\CubeEventListener.cs" />
+     <Compile Include="Assets\sourse\GUIScript.cs" />
      <Compile Include="Assets\sourse\GUI_Test1.cs" />
      <Compile Include="Assets\sourse\GameManager.cs" />
      <Compile Include="Assets\sourse\LifeTimer.cs" />

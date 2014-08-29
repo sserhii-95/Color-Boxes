@@ -148,7 +148,7 @@ public class CubeColor : MonoBehaviour {
         if (gameObject.tag == "player")
             GetComponent<Transformer>().RotateOnDegrees(new Vector3(1f, 0f, 0f), 180f);
         else
-            GetComponent<Transformer>().RotateOnDegrees(Vector3.up, 180f);
+            GetComponent<Transformer>().RotateOnDegrees(Vector3.up, 45f);
 
     }
 
@@ -261,7 +261,7 @@ public class CubeColor : MonoBehaviour {
     /**
      * Makes object visibility or not visibility depending on value
      */
-    void SetRendererActive(bool value){
+    public void SetRendererActive(bool value){
         switch (gameObject.tag) { 
             case "cube" :
                 renderer.enabled = value;

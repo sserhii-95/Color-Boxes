@@ -114,6 +114,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    private GameObject GUICamera;
+
+    private bool changingResults = false;
+
     /**
      * Method, wich manages GUI
      */
@@ -124,6 +128,10 @@ public class GameManager : MonoBehaviour {
             case WORK:
                 GUI.Label(new Rect(10, 10, 1000, 50), points + " "+ GetGameTime() + " " + Numbers.GetTranslateSpeed(GetGameTime()), style2);
                 TestTypeMinusOne();
+                if (changingResults) {
+                    GUICamera.GetComponent<GUIScript>().UpdateResult(points);
+                    changingResults = false;
+                }
                 break;
             case PAUSE:
                 break;
@@ -151,6 +159,7 @@ public class GameManager : MonoBehaviour {
      */ 
     public void AddPoint() {
         points++;
+        changingResults = true;
     }
 
     /**
@@ -159,6 +168,7 @@ public class GameManager : MonoBehaviour {
     public void UsePoints()
     {
         points -= damageOnCollide;
+        changingResults = true;
     }
 
 	/**
@@ -166,6 +176,7 @@ public class GameManager : MonoBehaviour {
 	 */
 	void Start () {
         timer = GetComponent<Timer>();
+        GUICamera = GameObject.Find("GUICamera");
         StartGame();
 	}
 	
@@ -276,6 +287,7 @@ public class GameManager : MonoBehaviour {
         ClearScene();
         player = GetComponent<CubeController>().CreatePlayer();
         points = 0;
+        changingResults = true;
         Timers.ResetTimers();
         ResumeGame();
     }

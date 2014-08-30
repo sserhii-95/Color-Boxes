@@ -126,12 +126,13 @@ public class GameManager : MonoBehaviour {
         switch (gameStatus)
         {
             case WORK:
-                GUI.Label(new Rect(10, 10, 1000, 50), points + " "+ GetGameTime() + " " + Numbers.GetTranslateSpeed(GetGameTime()), style2);
-                TestTypeMinusOne();
+            //   GUI.Label(new Rect(10, 10, 1000, 50), points + " "+ GetGameTime() + " " + Numbers.GetTranslateSpeed(GetGameTime()), style2);
+            //    TestTypeMinusOne();
                 if (changingResults) {
                     GUICamera.GetComponent<GUIScript>().UpdateResult(points);
                     changingResults = false;
                 }
+                GUICamera.GetComponent<GUIScript>().UpdateGUITimer(GetGameTime());
                 break;
             case PAUSE:
                 break;
@@ -264,6 +265,7 @@ public class GameManager : MonoBehaviour {
 	 */
     public void StopGame() {
         gameStatus = PAUSE;
+        GUICamera.GetComponent<Camera>().enabled = false;
     }
 
 	/**
@@ -271,6 +273,7 @@ public class GameManager : MonoBehaviour {
 	 */
     public void ResumeGame() {
         gameStatus = WORK;
+        GUICamera.GetComponent<Camera>().enabled = true;
     }
 
 	/**
@@ -278,6 +281,7 @@ public class GameManager : MonoBehaviour {
 	 */
     public void GameOver() {
         gameStatus = GAME_OVER;
+        GUICamera.GetComponent<Camera>().enabled = false;
     }
 
 	/**
@@ -288,6 +292,7 @@ public class GameManager : MonoBehaviour {
         player = GetComponent<CubeController>().CreatePlayer();
         points = 0;
         changingResults = true;
+        GUICamera.GetComponent<GUIScript>().UpdateGUITimer(0f);
         Timers.ResetTimers();
         ResumeGame();
     }

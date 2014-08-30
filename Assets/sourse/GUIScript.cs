@@ -5,17 +5,30 @@ using System.Collections.Generic;
 public class GUIScript : MonoBehaviour {
 
     public GameObject cubePrefab;
+    public GameObject timePrefab;
     private ArrayList cubes;
     private Color transparent = new Color(0, 0, 0, 0);
 
     public float startPosition = 1.8f;
     private int countVisibleCubes = 0;
     private string oldResult = "";
-    
+
+    private float oldTime = 0f;
+    public  TextMesh text;
+    private GameObject timeCube;
+
+       //  void OnGUI(){
+      //    GUI.Label(new Rect(100, 100, 100, 100), Screen.width + " " + Screen.height);
+     //   GUI.Label(new Rect(100, 140, 100, 100), GetComponent<Camera>().pixelWidth + " " + GetComponent<Camera>().bounds.size.x);
+    //}
 
 	void Start () {
+        startPosition = Screen.width / Screen.height * 5;
+       // Camera cam = GetComponent<Camera>();
+       // cam.transform.position.ToV + 0.9f * cam.exte
+        
 	    cubes = new ArrayList();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
             CreateCube(i);
         Debug.Log(cubes.Count);
         for (int i = 0; i < cubes.Count; i++)
@@ -23,7 +36,20 @@ public class GUIScript : MonoBehaviour {
             Debug.Log(cubes[i]);
         }
 
+        CreateGUITimer();
 	}
+
+    private void CreateGUITimer() {
+        timeCube = Instantiate(timePrefab) as GameObject;
+        timeCube.transform.parent = transform;
+        timeCube.transform.localPosition = new Vector3(-1f * startPosition, 0, 1);
+        timeCube.transform.Rotate(0, 90, 0);
+        timeCube.GetComponent<CubeColor>().ChangeColor();
+
+        oldTime = 0f;
+
+        text.transform.localPosition = new Vector3(timeCube.transform.localPosition.x + 1f * timeCube.renderer.bounds.size.x, 0f, 1f);
+    }
 
 	void Update () {
 	
@@ -37,7 +63,7 @@ public class GUIScript : MonoBehaviour {
     }
 
     public void UpdateResult(int result) {
-        if (result < 0) result *= -1; // must be deleted!
+       // if (result < 0) result *= -1; // must be deleted!
 
         string resString = ReverseString(result.ToString());
         
@@ -70,6 +96,15 @@ public class GUIScript : MonoBehaviour {
 
         countVisibleCubes = resString.Length;
         oldResult = resString;
+    }
+
+    public void UpdateGUITimer(float newTime) {
+        newTime = Mathf.Round(newTime * 10f) / 10f;
+        text.text = newTime + "";
+        if (newTime - oldTime > 1f) {
+            timeCube.GetComponent<CubeColor>().ChangeColor();
+            oldTime = Mathf.Round(newTime);
+        }
     }
 
     private void SetTextForCube(GameObject go, string text)

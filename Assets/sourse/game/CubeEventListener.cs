@@ -27,7 +27,7 @@ public class CubeEventListener : MonoBehaviour {
                 gameManager.AddPoint();
             }
             else {
-                if (gameManager.Points >= gameManager.damageOnCollide /**/ || true /*GOD mod*/)
+                if (gameManager.Points >= gameManager.damageOnCollide /** || true /*GOD mod*/)
                 {
                     otherColor = other.gameObject.renderer.material.color;
                     DoSomeEffect();
@@ -35,7 +35,7 @@ public class CubeEventListener : MonoBehaviour {
                 }
                 else
                 {
-                    gameObject.AddComponent<Transformer>().direction = Vector3.back;
+                    //gameObject.AddComponent<Transformer>().direction = Vector3.back;
                     gameObject.GetComponent<Transformer>().Scale();
                     gameManager.GameOver();
                 }

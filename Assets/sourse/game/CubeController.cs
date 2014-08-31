@@ -60,8 +60,10 @@ public class CubeController : MonoBehaviour {
             player.transform.position = prefab.transform.position;
             player.transform.rotation = prefab.transform.rotation;
             player.transform.localScale= prefab.transform.localScale;
-            while(player.GetComponent<Transformer>() != null)
-                Destroy(player.GetComponent<Transformer>());
+            //while(player.GetComponent<Transformer>() != null)
+            //Destroy(player.GetComponent<Transformer>());
+            player.GetComponent<Transformer>().deltaScale = Vector3.zero;
+
         }
 
         player.transform.position = Vector3.back * 8;

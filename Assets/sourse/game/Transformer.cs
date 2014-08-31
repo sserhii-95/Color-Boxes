@@ -83,7 +83,8 @@ public class Transformer : MonoBehaviour {
      */
 	void Update () {
         if (canTranslate) { 
-            translateSpeed = Numbers.GetTranslateSpeed(Time.timeSinceLevelLoad - timer.TimeSinceRestart);
+            if (timer != null)
+                translateSpeed = Numbers.GetTranslateSpeed(Time.timeSinceLevelLoad - timer.TimeSinceRestart);
             transform.position = transform.position + direction * translateSpeed * Time.deltaTime;
        }
 

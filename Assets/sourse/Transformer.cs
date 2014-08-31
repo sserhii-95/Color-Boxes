@@ -18,6 +18,8 @@ public class Transformer : MonoBehaviour {
      */
     public float scaleSpeed = -10f;
 
+    public float angleDef;
+
     /**
      * Direction in wich gameObject will be translating
      */
@@ -59,6 +61,11 @@ public class Transformer : MonoBehaviour {
         deltaScale = new Vector3(1f, 1f, 1f);
         scaleSpeed = -20;
     }
+
+    public void RotateOnDegrees(Vector3 direction) {
+        RotateOnDegrees(direction, angleDef);
+    }
+
     public void RotateOnDegrees(Vector3 direction, float AngleInDegrees) {
         rotation = direction * AngleInDegrees;
         deltaRotate = rotation / rotateTime;
@@ -111,8 +118,11 @@ public class Transformer : MonoBehaviour {
             }
             else
             {
+                transform.Rotate(rotation);
                 rotation = Vector3.zero;
                 transform.rotation = Quaternion.AngleAxis(0f, Vector3.zero);
+                //rotation = Vector3.zero;
+//                
             }
         }
 	}

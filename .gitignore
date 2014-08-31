@@ -24,6 +24,7 @@ Library/
 obj/
 ProjectSettings/
 Temp/
+Mono/
 
 # =========================
 # Operating System Files

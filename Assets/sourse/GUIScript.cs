@@ -45,7 +45,7 @@ public class GUIScript : MonoBehaviour {
         timeCube.transform.localPosition = new Vector3(-1f * startPosition, 0, 1);
         timeCube.transform.Rotate(0, 90, 0);
         timeCube.GetComponent<CubeColor>().ChangeColor();
-
+        timeCube.transform.rotation = Quaternion.AngleAxis(0f, Vector3.zero);
         oldTime = 0f;
 
         text.transform.localPosition = new Vector3(timeCube.transform.localPosition.x + 1f * timeCube.renderer.bounds.size.x, 0f, 1f);
@@ -114,6 +114,7 @@ public class GUIScript : MonoBehaviour {
             if ((go as GameObject).transform.GetChild(i).name.Equals("front"))
             {
                 (go as GameObject).transform.GetChild(i).GetComponent<TextMesh>().text = text;
+                //(go as GameObject).transform.GetChild(i).transform.Rotate(0f, 360f, 0f);
             }
     }
 
@@ -128,10 +129,11 @@ public class GUIScript : MonoBehaviour {
 
         GameObject go = Instantiate(cubePrefab) as GameObject;
         go.transform.parent = transform;
+
         go.transform.localPosition = new Vector3(xPosition, 0, 1);
         go.GetComponent<CubeColor>().Init(0);
         go.GetComponent<CubeColor>().SetRendererActive(false);
-
+        
         cubes.Add(go);
     }
 

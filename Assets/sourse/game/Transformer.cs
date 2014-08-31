@@ -38,7 +38,7 @@ public class Transformer : MonoBehaviour {
     /**
      * flag of possibility of translating of gameObject
      */
-    public bool canTeranslate = true;
+    public bool canTranslate = true;
 
     /**
      * flag of possibility of rotating of gameObject
@@ -82,10 +82,10 @@ public class Transformer : MonoBehaviour {
      * Update method
      */
 	void Update () {
-        translateSpeed = Numbers.GetTranslateSpeed(Time.timeSinceLevelLoad - timer.TimeSinceRestart);
-
-        if (canTeranslate)
+        if (canTranslate) { 
+            translateSpeed = Numbers.GetTranslateSpeed(Time.timeSinceLevelLoad - timer.TimeSinceRestart);
             transform.position = transform.position + direction * translateSpeed * Time.deltaTime;
+       }
 
         if (canScale)
         {

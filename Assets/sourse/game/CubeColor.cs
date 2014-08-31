@@ -19,7 +19,7 @@ public class CubeColor : MonoBehaviour {
     /**
      * Color of gameObject
      */
-    private Color newColor = Color.white;
+    public Color newColor = Color.white;
 
     /**
      * Previos color of gameObject
@@ -169,14 +169,20 @@ public class CubeColor : MonoBehaviour {
             case "player" :
                 renderer.material.color = color;
                 break;
+            default :
+                renderer.material.color = color;
+                break;
         }
     }
 	
 	/**
      * Update method
      */
-	void Update () {
-        float dist = Vector3.Distance(transform.position, playerTransform.position);
+	void Update () { 
+        
+        float dist = 0f;
+        if (playerTransform != null) dist = Vector3.Distance(transform.position, playerTransform.position);
+
         Paint(newColor);
         switch (type) { 
             case 0 :

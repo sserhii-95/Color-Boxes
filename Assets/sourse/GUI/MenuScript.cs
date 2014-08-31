@@ -53,7 +53,10 @@ public class MenuScript : MonoBehaviour {
             go.GetComponent<CubeColor>().ChangeColor();
     }
 
-    void GetInput() { 
+    void GetInput() {
+
+        bool someAction = false;
+
         //for PC:
         if (Input.GetKeyDown(KeyCode.UpArrow)) selectedIndex--;
         if (Input.GetKeyDown(KeyCode.DownArrow)) selectedIndex++;
@@ -62,15 +65,66 @@ public class MenuScript : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            switch (selectedIndex) { 
-                case 1: 
-                    Debug.Log("Game!!!");
-                    Application.LoadLevel(0);
+            someAction = true;
+        }
+        string action = "";
+        RaycastHit hit = new RaycastHit();
+        if (Input.GetMouseButton(0))
+            if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                if (hit.collider.gameObject.GetComponent<TextMesh>() != null)
+                {
+                    action = hit.collider.gameObject.GetComponent<TextMesh>().text;
+                }
+            }
+
+        //for Sensors without multiTouch yet
+        if (Input.touchCount > 0)
+            if (Physics.Raycast(camera.ScreenPointToRay(Input.GetTouch(0).position), out hit))
+            {
+                if (hit.collider.gameObject.GetComponent<TextMesh>() != null)
+                {
+                    action = hit.collider.gameObject.GetComponent<TextMesh>().text;
+                }
+            }
+
+        if (action.Length > 0)
+        {
+            someAction = true;
+            switch (action) { 
+                case "Play" :
+                    selectedIndex = 1;
+                    break;
+                case "Otions" :
+                    selectedIndex = 2;
+                    break;
+                case "Exit" :
+                    selectedIndex = 3;
+                    break;
+                default :
+                    someAction = false;
                     break;
             }
-            
         }
-    }
+
+        if (someAction)
+        {
+            switch (selectedIndex)
+            {
+                case 1:
+                    Debug.Log("Game!!!");
+                    Application.LoadLevel(1);
+                    break;
+                case 2:
+                    // Open options
+                    break;
+                case 3:
+                    Application.Quit();
+                    break;
+            }
+        }
+
+    } 
 
     GameObject GenerateCube() {
         return GenerateCube(cubePrefab, cubeContainer);

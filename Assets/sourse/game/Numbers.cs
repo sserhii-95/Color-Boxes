@@ -75,11 +75,11 @@ public static class Numbers{
      */
     public static float GetTranslateSpeed(float time)
     {
-        float minSpeed = 10;
-        float maxSpeed = 25;
+        float minSpeed = 20;
+        float maxSpeed = 30;
         float maxTime = 40;
-        if (true)
-            return 25;
+//        if (true)
+//           return 25;
         if (time > maxTime) return maxSpeed;
         else
             return minSpeed + time / maxTime * (maxSpeed - minSpeed);

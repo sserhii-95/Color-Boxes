@@ -50,6 +50,8 @@ public class Transformer : MonoBehaviour {
      */
     public bool canScale = true;
 
+    private bool timerEnabled = true;
+
     private Vector3 deltaRotate;
 
     /**
@@ -77,13 +79,17 @@ public class Transformer : MonoBehaviour {
 	void Start () {
         timer = GameObject.Find("Main Camera").GetComponent<Timer>();
 	}
+
+    public void SetTimerActive(bool enabled) {
+        timerEnabled = enabled;
+    }
 	
 	/**
      * Update method
      */
 	void Update () {
         if (canTranslate) { 
-            if (timer != null)
+            if (timer != null && timerEnabled)
                 translateSpeed = Numbers.GetTranslateSpeed(Time.timeSinceLevelLoad - timer.TimeSinceRestart);
             transform.position = transform.position + direction * translateSpeed * Time.deltaTime;
        }

@@ -186,11 +186,23 @@ public class GameManager : MonoBehaviour {
 	 */
 	void Update () {
         if (timer.GetTime() > timeInterval) {
+            CubeController ctr = GetComponent<CubeController>();
+            for (int i = 0; i < 20; i++)
+            {
+                
+                GameObject go = MenuScript.GenerateCube(cubePrefab, cubeContainer);
+                           go.transform.position = new Vector3(Random.Range((int)(ctr.Line + 3), (int)(ctr.Line + 55f)) * (Random.Range(0, 2) * -2 + 1), Random.Range((int)(ctr.Line + 1), (int)(ctr.Line + 55f)) * (Random.Range(0, 2) * -2 + 1), 200f);
+                           go.GetComponent<Transformer>().translateSpeed = Random.Range(100, 180);
+                           go.GetComponent<Transformer>().SetTimerActive(false);
+                           go.GetComponent<LifeTimer>().timeOfLife = 1.5f;
+
+            }
+
             if (cubesCountBuffer > cubesCount)
             {
                 if (player.GetComponent<CubeColor>().Type != -1) 
                     GenerateWall();
-                cubesCountBuffer = 0;
+                   cubesCountBuffer = 0;
             }
             else
             {
@@ -282,6 +294,10 @@ public class GameManager : MonoBehaviour {
     public void GameOver() {
         gameStatus = GAME_OVER;
         GUICamera.GetComponent<Camera>().enabled = false;
+        string anim = "cameraAnim";
+        GameObject mCamera = GameObject.Find("Main Camera");
+        ///mCamera.animation
+        mCamera.animation.Play();
     }
 
 	/**
@@ -295,6 +311,10 @@ public class GameManager : MonoBehaviour {
         GUICamera.GetComponent<GUIScript>().UpdateGUITimer(0f);
         Timers.ResetTimers();
         ResumeGame();
+        string anim = "cameraAnim";
+        GameObject mCamera = GameObject.Find("Main Camera");
+        mCamera.animation[anim].speed = -1;
+        mCamera.animation.Play();
     }
 
 	/**

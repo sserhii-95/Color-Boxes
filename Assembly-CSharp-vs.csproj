@@ -47,10 +47,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\sourse\GUI\MenuScript.cs" />
+     <Compile Include="Assets\sourse\GUI\StaticCubeColor.cs" />
      <Compile Include="Assets\sourse\game\Colors.cs" />
      <Compile Include="Assets\sourse\game\CubeColor.cs" />
      <Compile Include="Assets\sourse\game\CubeController.cs" />
      <Compile Include="Assets\sourse\game\CubeEventListener.cs" />
+     <Compile Include="Assets\sourse\game\Cubes.cs" />
      <Compile Include="Assets\sourse\game\GUIScript.cs" />
      <Compile Include="Assets\sourse\game\GUI_Test1.cs" />
      <Compile Include="Assets\sourse\game\GameManager.cs" />
@@ -60,6 +62,8 @@
      <Compile Include="Assets\sourse\game\Timers.cs" />
      <Compile Include="Assets\sourse\game\Transformer.cs" />
      <Compile Include="Assets\sourse\game\WalEventListener.cs" />
+     <None Include="Assets\materials\Shader3.shader" />
+     <None Include="Assets\materials\1_FlatColor.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

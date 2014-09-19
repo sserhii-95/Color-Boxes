@@ -21,6 +21,10 @@ public class CubeController : MonoBehaviour {
      */
     private float roadWidth = 1.5f;
 
+    private Touch[] touches = new Touch[0];
+
+    private bool leftSwipe, rightSwipe;
+
 
     /**
      * public read only access to line of gameObject
@@ -41,6 +45,8 @@ public class CubeController : MonoBehaviour {
         {
             CreatePlayer();
         }
+
+        touches = Input.touches;
         
 	}
 
@@ -79,22 +85,35 @@ public class CubeController : MonoBehaviour {
         Move();
 	}
 
+    void OnGUI(){
+        for (int i = 0; i < Input.touches.Length; i++) {
+          GUI.Label(new Rect(100, 100 + 100 * i, 300, 300), "("+Input.touches[i].position+") ( "+touches[i].position+")");
+        }
+        touches = Input.touches;
+    }
+
     /**
      * Changes line if was input commands to change it
      */
     private void GetInput() {
-        if (MoveLeft())
-        {
-            if (line > -1)
-                line--;
-            else line = 1;
-        }
-        else if (MoveRight())
-        {
-            if (line < 1)
-                line++;
-            else line = -1;
-        }
+        leftSwipe = false;
+        rightSwipe = false;
+
+
+        
+
+            if (MoveLeft())
+            {
+                if (line > -1)
+                    line--;
+                else line = 1;
+            }
+            else if (MoveRight())
+            {
+                if (line < 1)
+                    line++;
+                else line = -1;
+            }
     }
 
     /**

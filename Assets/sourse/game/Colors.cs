@@ -6,15 +6,50 @@ using System.Collections;
  */ 
 public static class Colors {
 
+
+    private static Color[] colors = {
+          Color.red,
+          Color.blue,
+          Color.green};
+
     /**
      * default array of colors
      */
-    private static Color[] colors = new Color[]{   Color.blue,
+    public static Color[] colorsS = new Color[]{
+          Color.blue,
           Color.red,
           Color.cyan,
           Color.yellow,
           Color.green,
           Color.magenta};
+
+    public static Color[] colorsM = new Color[]{
+        Color255(255, 255,  82),
+        Color255(252,  66, 123),
+        Color255(209, 241, 239),
+        Color255(243,  90,   0),
+        Color255(58,  185, 124)};
+
+    public static Color[] colorsG = new Color[]{
+        Color255(255, 215, 0),
+        Color255(192, 192, 192),
+        Color255(184, 115, 51),
+        Color255(98, 226, 254),
+    };
+    
+
+    public static Color Color255(int r, int g, int b) {
+        return new Color(r / 255f, g / 255f, b / 255f);
+    }
+
+
+
+    public static Color[] GetColors() { 
+        Color[] _colors = new Color[colors.Length];
+        for (int i = 0; i < _colors.Length; i++)
+            _colors[i] = colors[i];
+        return _colors;
+    }
 
     /**
      * Changes array of colors

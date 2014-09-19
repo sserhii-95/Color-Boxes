@@ -146,9 +146,14 @@ public class CubeColor : MonoBehaviour {
             processTime = 0f;
         }
         if (gameObject.tag == "player")
+        {
             GetComponent<Transformer>().RotateOnDegrees(new Vector3(1f, 0f, 0f));
+        }
         else
+        {
             GetComponent<Transformer>().RotateOnDegrees(new Vector3(0f, 1f, 0f));
+            
+        }
 
     }
 

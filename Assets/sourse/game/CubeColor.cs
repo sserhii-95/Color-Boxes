@@ -151,7 +151,9 @@ public class CubeColor : MonoBehaviour {
         }
         else
         {
-            GetComponent<Transformer>().RotateOnDegrees(new Vector3(0f, 1f, 0f));
+
+            if (GetComponent<Transformer>() != null)
+                GetComponent<Transformer>().RotateOnDegrees(new Vector3(0f, 1f, 0f));
             
         }
 

@@ -25,6 +25,7 @@ public class StaticCubeColor : MonoBehaviour {
 	void Update () {
         if (canChanging)
         {
+            
         }
 
         if (Time.timeSinceLevelLoad - lastTime > 3) {

@@ -6,6 +6,15 @@ using System.Collections;
  */ 
 public static class Colors {
 
+    private static bool[] locks = { false, false, false, false};
+
+    public static Color[] customColors = {
+            new Color(0.50f, 0.50f, 0.50f),
+            new Color(0.51f, 0.51f, 0.51f),
+            new Color(0.52f, 0.52f, 0.52f),
+            new Color(0.53f, 0.53f, 0.53f),
+            new Color(0.54f, 0.54f, 0.54f),
+            };
 
     private static Color[] colors = {
           Color.red,
@@ -60,6 +69,23 @@ public static class Colors {
             colors[i] = _colors[i];
     }
 
+    public static void Init(int index) {
+        switch (index) { 
+            case 0:
+                Init(colorsS);
+                break;
+            case 1:
+                Init(colorsM);
+                break;
+            case 2:
+                Init(customColors);
+                break;
+            case 3:
+                Init(colorsG);
+                break;
+        }
+    }
+
     /**
      * Returns color, wich has index = randomIndex
      */
@@ -77,5 +103,9 @@ public static class Colors {
             return GetColor(randomIndex + 1);
         else
             return newColor;
+    }
+
+    public static bool isLocked(int idx){
+        return locks[idx];
     }
 }

@@ -9,7 +9,7 @@ public class GUIScript : MonoBehaviour {
     private ArrayList cubes;
     private Color transparent = new Color(0, 0, 0, 0);
 
-    public float startPosition = 1.8f;
+    public float startPosition = 2f;
     private int countVisibleCubes = 0;
     private string oldResult = "";
 
@@ -17,13 +17,9 @@ public class GUIScript : MonoBehaviour {
     public  TextMesh text;
     private GameObject timeCube;
 
-       //  void OnGUI(){
-      //    GUI.Label(new Rect(100, 100, 100, 100), Screen.width + " " + Screen.height);
-     //   GUI.Label(new Rect(100, 140, 100, 100), GetComponent<Camera>().pixelWidth + " " + GetComponent<Camera>().bounds.size.x);
-    //}
 
 	void Start () {
-        startPosition = Screen.width / Screen.height * 5;
+        startPosition = GameObject.Find("GUICamera").GetComponent<Camera>().orthographicSize * Screen.width / Screen.height * 0.8f;
        // Camera cam = GetComponent<Camera>();
        // cam.transform.position.ToV + 0.9f * cam.exte
         
@@ -42,13 +38,16 @@ public class GUIScript : MonoBehaviour {
     private void CreateGUITimer() {
         timeCube = Instantiate(timePrefab) as GameObject;
         timeCube.transform.parent = transform;
-        timeCube.transform.localPosition = new Vector3(-1f * startPosition, 0, 1);
+        timeCube.transform.localScale = Vector3.one / 5;
+        timeCube.transform.localPosition = new Vector3(-startPosition , 0.8f, 1);
         timeCube.transform.Rotate(0, 90, 0);
         timeCube.GetComponent<CubeColor>().ChangeColor();
         timeCube.transform.rotation = Quaternion.AngleAxis(0f, Vector3.zero);
         oldTime = 0f;
 
-        text.transform.localPosition = new Vector3(timeCube.transform.localPosition.x + 1f * timeCube.renderer.bounds.size.x, 0f, 1f);
+        text.transform.localPosition = new Vector3(timeCube.transform.localPosition.x + 1f * timeCube.renderer.bounds.size.x, 0.8f, 1f);
+        text.transform.localScale = Vector3.one / 5;
+             
     }
 
 	void Update () {
@@ -121,18 +120,19 @@ public class GUIScript : MonoBehaviour {
     private void CreateCube(int index) { 
         float xPosition = 0;
         if (index == 0) {
-            xPosition = startPosition; 
+            xPosition = startPosition;
         } else
         {
-            xPosition = (cubes[index - 1] as GameObject).transform.localPosition.x - cubePrefab.renderer.bounds.size.x * 1.1f;
+            xPosition = (cubes[index - 1] as GameObject).transform.localPosition.x - cubePrefab.renderer.bounds.size.x * 1.1f / 5;
         }
 
         GameObject go = Instantiate(cubePrefab) as GameObject;
         go.transform.parent = transform;
-
-        go.transform.localPosition = new Vector3(xPosition, 0, 1);
+        go.transform.localPosition = new Vector3(xPosition, 0.8f, 1);
+        go.transform.localScale = Vector3.one / 5;
         go.GetComponent<CubeColor>().Init(0);
         go.GetComponent<CubeColor>().SetRendererActive(false);
+        go.transform.GetChild(0).light.range = go.transform.GetChild(0).light.range / 5;
         
         cubes.Add(go);
     }

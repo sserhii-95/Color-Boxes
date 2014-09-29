@@ -23,6 +23,8 @@ public class MenuScript : MonoBehaviour
     private int windowId = 0;
     private Vector3 deltaPosition;
 
+    private int indexCustomColor = -1;
+
     #endregion
 
     public GameObject pointer;
@@ -45,17 +47,22 @@ public class MenuScript : MonoBehaviour
         Vector3 windowPos = windowTransform.localPosition;
         float f = Mathf.Abs(windowPos.x) +Mathf.Abs(windowPos.y);
 
+        if (f > 20) {
+            deltaPosition = -windowContainers[windowId].transform.localPosition;
+        }
+
         if (f > 1e-1){
 
             float dX = Time.deltaTime * 3 * deltaPosition.x;
             float dY = Time.deltaTime * 3 * deltaPosition.y; 
+
             if (f < 2)
             {
                 dX = Time.deltaTime * 10 * -windowPos.x;
                 dY = Time.deltaTime * 10 * -windowPos.y;
             }
-            
 
+            Debug.Log(deltaPosition + " " + dX + " " + dY);
 
             for(int i = 0; i < windowContainers.Length; i++)
                 windowContainers[i].transform.Translate(dX, dY, 0);
@@ -68,15 +75,12 @@ public class MenuScript : MonoBehaviour
             {
                 timer = Time.timeSinceLevelLoad;
                 ChangeColors();
-                pointer.GetComponent<CubeColor>().ChangeColor();
+                pointer.GetComponent<Transformer>().RotateOnDegrees(Vector3.up);
 
                 for(int i = 0; i < 15; i++)
                     GenerateCube();
             }
 
-            Vector3 pos = pointer.transform.localPosition;
-            pos.y = menuItems[selectedIndex].transform.localPosition.y;
-            pointer.transform.localPosition = pos;
         }
 	}
 
@@ -85,7 +89,6 @@ public class MenuScript : MonoBehaviour
         foreach (GameObject go in menuItems)
         {
             go.GetComponent<CubeColor>().ChangeColor();
-            Debug.Log(go.name);
         }
 
     }
@@ -105,30 +108,36 @@ public class MenuScript : MonoBehaviour
         {
             someAction = true;
         }
+
         string action = "";
+
         RaycastHit hit = new RaycastHit();
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                if (hit.collider.gameObject.GetComponent<TextMesh>() != null)
+                if (hit.collider.gameObject.GetComponent<TextMesh>() != null || hit.collider.gameObject.name.StartsWith("Col"))
                 {
                     action = hit.collider.gameObject.name;
                 }
             }
-
+        
         //for Sensors without multiTouch yet
         if (Input.touchCount > 0)
-            if (Physics.Raycast(camera.ScreenPointToRay(Input.GetTouch(0).position), out hit))
+        {
+            
+            if (Input.GetTouch(0).phase == TouchPhase.Ended && Physics.Raycast(camera.ScreenPointToRay(Input.GetTouch(0).position), out hit))
             {
-                if (hit.collider.gameObject.GetComponent<TextMesh>() != null)
+                Debug.Log(Input.GetTouch(0).phase);
+                if (hit.collider.gameObject.GetComponent<TextMesh>() != null || hit.collider.gameObject.name.StartsWith("Col"))
                 {
                     action = hit.collider.gameObject.name;
                 }
             }
+        }
 
         if (action.Length > 0)
         {
-            Debug.Log(action);
+        
             someAction = true;
             switch (action) { 
                 case "Play" :
@@ -164,6 +173,27 @@ public class MenuScript : MonoBehaviour
                 case "BackToColorProperties":
                     selectedIndex = 11;
                     break;
+                case "Col1":
+                    selectedIndex = 201;
+                    break;
+                case "Col2":
+                    selectedIndex = 202;
+                    break;
+                case "Col3":
+                    selectedIndex = 203;
+                    break;
+                case "Col4":
+                    selectedIndex = 204;
+                    break;
+                case "Col5":
+                    selectedIndex = 205;
+                    break;
+                case "OkColorPicker":
+                    selectedIndex = 501;
+                    break;
+                case "ChooseCustomColors":
+                    selectedIndex = 206;
+                    break;
                 default :
                     someAction = false;
                     break;
@@ -174,8 +204,6 @@ public class MenuScript : MonoBehaviour
 
         if (someAction)
         {
-            Debug.Log(action);
-
             switch (selectedIndex)
             {
                 case 1:
@@ -198,20 +226,39 @@ public class MenuScript : MonoBehaviour
                     NextWindow(1);
                     break;
                 case 7:
-                    Colors.Init(Colors.colorsS);
+                    GetComponent<ColorsTypeChooser>().SetIndex(0);
                     break;
                 case 8:
-                    Colors.Init(Colors.colorsM);
+                    GetComponent<ColorsTypeChooser>().SetIndex(1);
                     break;
                 case 9:
-                    Colors.Init(Colors.colorsG);
+                    GetComponent<ColorsTypeChooser>().SetIndex(3);
                     break;
                 case 10:
-                    NextWindow(3);
+                    if (GetComponent<ColorsTypeChooser>().SetIndex(2))
+                    {
+                        NextWindow(3);
+                    }
                     break;
                 case 11:
                     NextWindow(2);
                     break;
+                case 201:
+                case 202:
+                case 203:
+                case 204:
+                case 205:
+                    indexCustomColor = selectedIndex - 201;
+                    pointer.GetComponent<ColorPicker>().Init(Colors.customColors[indexCustomColor]);
+                    NextWindow(4);
+                break;
+                case 501:
+                    Colors.customColors[indexCustomColor] = pointer.renderer.material.color;
+                    NextWindow(3);
+                break;
+                case 206:
+                    NextWindow(2);
+                break;
             }
         }
 

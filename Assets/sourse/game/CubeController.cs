@@ -21,7 +21,8 @@ public class CubeController : MonoBehaviour {
      */
     private float roadWidth = 1.5f;
 
-    private Touch[] touches = new Touch[0];
+    private Touch touch;
+    private bool isSwiping = false;
 
     private bool leftSwipe, rightSwipe;
 
@@ -45,8 +46,6 @@ public class CubeController : MonoBehaviour {
         {
             CreatePlayer();
         }
-
-        touches = Input.touches;
         
 	}
 
@@ -85,22 +84,50 @@ public class CubeController : MonoBehaviour {
         Move();
 	}
 
-    void OnGUI(){
-        for (int i = 0; i < Input.touches.Length; i++) {
-          GUI.Label(new Rect(100, 100 + 100 * i, 300, 300), "("+Input.touches[i].position+") ( "+touches[i].position+")");
+    private void Swipes() {
+        leftSwipe = false;
+        rightSwipe = false;
+
+        if (Input.touchCount > 0) {
+            switch(Input.GetTouch(0).phase){
+                case TouchPhase.Began:
+                    touch = Input.GetTouch(0);
+                    isSwiping = true;
+                break;
+                /*case TouchPhase.Moved:
+                if (isSwiping && Input.GetTouch(0).)
+                {
+                    Vector3 diff = Input.GetTouch(0).position - touch.position;
+                    if (Vector3.Distance(Vector3.zero, diff) > 0.05)
+                    {
+                        if (diff.x > 0.05) rightSwipe = true;
+                        else if (diff.x < -0.05) leftSwipe = true;
+                    }
+                    isSwiping = false;
+                }
+                break; */
+                case TouchPhase.Ended:
+                if (Input.GetTouch(0).tapCount == 1) 
+                {
+                    Vector3 pos = Input.GetTouch(0).position;
+                    if (pos.y < Screen.height / 2)
+                    if (pos.x > Screen.width / 2)
+                        rightSwipe = true;
+                    else
+                        leftSwipe = true;
+
+                }
+                break;
+            }
         }
-        touches = Input.touches;
     }
 
     /**
      * Changes line if was input commands to change it
      */
     private void GetInput() {
-        leftSwipe = false;
-        rightSwipe = false;
 
-
-        
+        Swipes();
 
             if (MoveLeft())
             {
@@ -120,14 +147,14 @@ public class CubeController : MonoBehaviour {
      * Translate player to line
      */
     void Move() {
-        player.transform.Translate((Line - player.transform.position.x) * 8 * Time.deltaTime, 0, 0);
+        player.transform.Translate((Line - player.transform.position.x) * 10 * Time.deltaTime, 0, 0);
     }
 
     /**
      * Returns true if was pressed key LeftArrow
      */
     bool MoveLeft() {
-        return (Input.GetKeyDown(KeyCode.LeftArrow));
+        return (Input.GetKeyDown(KeyCode.LeftArrow) || leftSwipe);
     }
 
     /**
@@ -135,6 +162,6 @@ public class CubeController : MonoBehaviour {
      */
     bool MoveRight()
     {
-        return (Input.GetKeyDown(KeyCode.RightArrow));
+        return (Input.GetKeyDown(KeyCode.RightArrow) || rightSwipe);
     }
 }

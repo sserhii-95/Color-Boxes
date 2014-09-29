@@ -148,13 +148,6 @@ public class GameManager : MonoBehaviour {
         
     }
 
-    private void TestTypeMinusOne() {
-        if (GUI.Button(new Rect(10, 30, 100, 40), "MultiColor", style2))
-        {
-            player.GetComponent<CubeColor>().Type = -1;
-        }
-    }
-
     /**
      * Increments game points
      */ 
@@ -187,7 +180,8 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         if (timer.GetTime() > timeInterval) {
             CubeController ctr = GetComponent<CubeController>();
-            for (int i = 0; i < 20; i++)
+            // generated back cubes
+            for (int i = 0; i < 0; i++)
             {
                 
                 GameObject go = MenuScript.GenerateCube(cubePrefab, cubeContainer);

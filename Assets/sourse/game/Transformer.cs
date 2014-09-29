@@ -106,6 +106,7 @@ public class Transformer : MonoBehaviour {
 
             if (transform.childCount == 1)
             {
+                if (transform.GetChild(0).light != null)
                 transform.GetChild(0).light.range = Mathf.Max(0, transform.GetChild(0).light.range + deltaScale.x * scaleSpeed * Time.deltaTime / 2);
             }
         }
